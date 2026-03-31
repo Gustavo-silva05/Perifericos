@@ -3,6 +3,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
+from serial import getTemperatureHumidity
+
+
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -35,7 +38,7 @@ class Window(QMainWindow):
         self.temp_lcd = self.findChild(QLCDNumber, "temp_lcd")
 
         self.pb_serial.clicked.connect()
-        self.pb_cancel.clicked.connect()
+        self.pb_cancel.clicked.connect(getTemperatureHumidity("C"))
         self.pb_hum.clicked.connect()
         self.pb_send.clicked.connect()
         self.pb_temp.clicked.connect()
@@ -47,10 +50,6 @@ class Window(QMainWindow):
         self.radioButton_3.clicked.connect()
         self.radioButton_4.clicked.connect()
 
-
-    #@ temperature = boolean, humidity = boolean
-    def getTemperatureHumidity(temperature, humidity):
-        return
 
 app = QApplication(sys.argv)
 window = Window()
