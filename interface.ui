@@ -19,7 +19,7 @@
      <rect>
       <x>20</x>
       <y>30</y>
-      <width>211</width>
+      <width>251</width>
       <height>51</height>
      </rect>
     </property>
@@ -30,8 +30,8 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>160</y>
+      <x>370</x>
+      <y>150</y>
       <width>271</width>
       <height>23</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QLCDNumber" name="temp_lcd">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>70</y>
+      <x>370</x>
+      <y>60</y>
       <width>231</width>
       <height>81</height>
      </rect>
@@ -68,12 +68,15 @@
      <rect>
       <x>20</x>
       <y>280</y>
-      <width>111</width>
+      <width>231</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string>INSERT A COMMAND</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pb_cancel">
@@ -105,8 +108,8 @@
    <widget class="QLabel" name="temp_l">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>190</y>
+      <x>370</x>
+      <y>180</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -114,12 +117,15 @@
     <property name="text">
      <string>TEMPERATURE</string>
     </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="hum_l">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>40</y>
+      <x>370</x>
+      <y>30</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -127,38 +133,41 @@
     <property name="text">
      <string>HUMIDITY</string>
     </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="radioButton_115200">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>290</y>
+      <x>380</x>
+      <y>280</y>
       <width>82</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>11420</string>
+     <string>115200</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QRadioButton" name="radioButton_921600">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>310</y>
+      <x>380</x>
+      <y>300</y>
       <width>82</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>...</string>
+     <string>921600</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_3">
+   <widget class="QRadioButton" name="radioButton_9600">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>270</y>
+      <x>380</x>
+      <y>260</y>
       <width>82</width>
       <height>17</height>
      </rect>
@@ -167,27 +176,17 @@
      <string>9600</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_4">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>330</y>
-      <width>82</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>....</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pb_tempHum">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>90</y>
-      <width>211</width>
+      <width>251</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>GET TEMPERATURE AND HUMIDITY</string>
@@ -198,7 +197,7 @@
      <rect>
       <x>20</x>
       <y>150</y>
-      <width>211</width>
+      <width>251</width>
       <height>51</height>
      </rect>
     </property>
@@ -211,7 +210,7 @@
      <rect>
       <x>20</x>
       <y>210</y>
-      <width>211</width>
+      <width>251</width>
       <height>51</height>
      </rect>
     </property>
@@ -219,17 +218,20 @@
      <string>GET ONLY HUMIDITY</string>
     </property>
    </widget>
-   <widget class="QLabel" name="baudarate_">
+   <widget class="QLabel" name="baudrate_l">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>240</y>
+      <x>380</x>
+      <y>230</y>
       <width>111</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>BAUDARATE</string>
+     <string>BAUDARATE: 0 bps</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -239,7 +241,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
