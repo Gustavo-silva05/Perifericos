@@ -1,5 +1,3 @@
-#include <Arduino.h>
-
 #define MAX485_DE_RE 2
 
 // slide 12 do MODBUS indica essas portas
@@ -62,7 +60,7 @@ void loop() {
             if (receiveModbus(7)) printHumi();
             else Serial.println("ERR");
 
-        } else if (cmd == 'TH') {
+        } else if (cmd == 'D') {
             buildFrame(tx_frame, REG_TEMP, 2);
             sendModbus(tx_frame, 8);
             if (receiveModbus(9)) printTempAndHumi();
@@ -75,7 +73,7 @@ void loop() {
             String raw = Serial.readStringUntil('\n');
             int newBaudrate = raw.toInt();
             Serial.println("OK");
-            delay(100); 
+            delay(500); 
             Serial.end();
             Serial.begin(newBaudrate);
         }
