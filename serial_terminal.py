@@ -1,7 +1,7 @@
 import serial
 import time
 
-ser = serial.Serial('COM10', 9600)
+ser = serial.Serial('COM3', 9600)
 ser.timeout = 3.0
 time.sleep(2)
 ser.reset_input_buffer()
@@ -44,17 +44,22 @@ try:
                 print(send_and_receive(b'D'))
             elif cin == "C":
                 raw = input("Hex bytes (ex: 01 03 00 00 00 01): ").strip()
-                ser.reset_input_buffer()
                 ser.write(('C' + raw + '\n').encode())
                 line = ser.readline().decode('utf-8').rstrip()
                 print(line if line else "Sem resposta")
+                ser.reset_input_buffer()
             elif cin == "B":
                 raw = input("Novo baudrate (ex: 115200): ").strip()
-                ser.reset_input_buffer()
                 ser.write(('B' + raw + '\n').encode())
                 line = ser.readline().decode('utf-8').rstrip()
-                print(line if line else "Sem resposta")
+                if line == "OK":
+                    print("Baudrate atualizado.")
+                else:
+                    print(f"Resposta inesperada: {line}")
                 ser.baudrate = int(raw)
+                time.sleep(0.5)
+                ser.reset_input_buffer()
+                
             else:
                 print("Entrada inválida. Use (T/H/D/B/C/S).")
 
