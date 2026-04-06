@@ -4,41 +4,40 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 import random
-# from comunicacao_serial import serial_communication
+from comunicacao_serial import serial_communication
 
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.baudrate = None  # Declarado antes de usar
         uic.loadUi("interface.ui", self)
         self.UiComponents()
         self.show()
+        self.started =False
+        
 
-    def set_baudrate(self, value):
-        self.baudrate_l.setText(f'Baudrate: {value} bps')
-        self.baudrate = value
-
-    def send_command(self, cmd):
-        # res = serial_communication(cmd, self.baudrate)
-        hum = random.randint(0, 100)
-        temp = round(random.uniform(0.0, 40.0))
-        resT = f'T:{temp}'
-        resH = "H:" + str(hum)
-        resTH = "TH:" + str(temp) + "," + str(hum)
-        print(f"Comando: {cmd}, Baudrate: {self.baudrate}")
+    def send_command(self, cmd, baudrate=9600, data=None):
+        res = serial_communication(cmd, baudrate, data)
+        print(f"Comando: {cmd}")
         if cmd == "S":
-            if self.pb_serial.text() == "Iniciar Comunicação":
-                self.pb_serial.setText("Parar Comunicação")
-            else:
+            if self.started:
+                self.started = False
                 self.pb_serial.setText("Iniciar Comunicação")
+            else:
+                self.started = True
+                self.pb_serial.setText("Parar Comunicação")
+        
+        elif not self.started:
+            print("Programa não Iniciado")
+            return
+
         elif cmd == "T":
-            self.temp_lcd.display(int(resT[2:]))
+            self.temp_lcd.display((float(res[2:])))
         elif cmd == "H":
-            self.progressBar.setValue(int(resH[2:]))
-        elif cmd == "TH":
-            temp, hum = resTH[3:].split(',')
-            self.temp_lcd.display(int(temp))
-            self.progressBar.setValue(int(hum))
+            self.progressBar.setValue(int(float(res[2:])))
+        elif cmd == "D":
+            temp, hum = res[2:].split(',')
+            self.temp_lcd.display(int(float(temp)))
+            self.progressBar.setValue(int(float(hum)))
         else:
             self.command_l.setText(f"Comando enviado: {cmd}")
 
@@ -62,7 +61,6 @@ class Window(QMainWindow):
         
         self.radioButton_9600 = self.findChild(QRadioButton, "radioButton_9600")
         self.radioButton_9600.setChecked(True)
-        self.set_baudrate(9600)
 
         self.radioButton_115200 = self.findChild(QRadioButton, "radioButton_115200")
         self.radioButton_921600 = self.findChild(QRadioButton, "radioButton_921600")
@@ -72,13 +70,13 @@ class Window(QMainWindow):
         self.pb_cancel.clicked.connect(lambda: self.command_line.clear())
         self.pb_serial.clicked.connect(lambda: self.send_command("S"))
         self.pb_hum.clicked.connect(lambda: self.send_command("H"))
-        self.pb_send.clicked.connect(lambda: self.send_command(self.command_line.text()))
+        self.pb_send.clicked.connect(lambda: self.send_command("C", None ,self.command_line.text()))
         self.pb_temp.clicked.connect(lambda: self.send_command("T"))
-        self.pb_tempHum.clicked.connect(lambda: self.send_command("TH"))
+        self.pb_tempHum.clicked.connect(lambda: self.send_command("D"))
 
-        self.radioButton_9600.clicked.connect(lambda: self.set_baudrate(9600))
-        self.radioButton_115200.clicked.connect(lambda: self.set_baudrate(115200))
-        self.radioButton_921600.clicked.connect(lambda: self.set_baudrate(921600))
+        self.radioButton_9600.clicked.connect(lambda: self.send_command("B",9600))
+        self.radioButton_115200.clicked.connect(lambda: self.send_command("B",115200))
+        self.radioButton_921600.clicked.connect(lambda: self.send_command("B",921600))
 
 app = QApplication(sys.argv)
 window = Window()
