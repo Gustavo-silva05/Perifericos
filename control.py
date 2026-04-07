@@ -3,7 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
-import random
+
 from comunicacao_serial import serial_communication
 
 class Window(QMainWindow):
@@ -17,29 +17,39 @@ class Window(QMainWindow):
 
     def send_command(self, cmd, baudrate=9600, data=None):
         res = serial_communication(cmd, baudrate, data)
-        print(f"Comando: {cmd}")
-        if cmd == "S":
-            if self.started:
-                self.started = False
-                self.pb_serial.setText("Iniciar Comunicação")
-            else:
-                self.started = True
-                self.pb_serial.setText("Parar Comunicação")
         
-        elif not self.started:
-            print("Programa não Iniciado")
+        if res in ["Sem resposta", "Sem conexão"] or "Erro" in res:
+            print(f"Falha: {res}")
             return
+        
+        print(f'resposta: {res}')
+        try:
+            if cmd == "S":
+                self.started = not self.started
+                self.pb_serial.setText("Parar Comunicação" if self.started else "Iniciar Comunicação")
+            
+            elif not self.started:
+                print("Inicie a comunicação primeiro (Botão S)")
+                return
 
-        elif cmd == "T":
-            self.temp_lcd.display((float(res[2:])))
-        elif cmd == "H":
-            self.progressBar.setValue(int(float(res[2:])))
-        elif cmd == "D":
-            temp, hum = res[2:].split(',')
-            self.temp_lcd.display(int(float(temp)))
-            self.progressBar.setValue(int(float(hum)))
-        else:
-            self.command_l.setText(f"Comando enviado: {cmd}")
+            elif cmd == "T":
+                
+                valor = float(res[2:]) if len(res) > 2 else float(res)
+                self.temp_lcd.display(valor)
+                
+            elif cmd == "H":
+                valor = int(float(res[2:]))
+                self.progressBar.setValue(valor)
+                
+            elif cmd == "D":
+                dados = res.split(':')
+                self.temp_lcd.display(float(dados[1]))
+                self.progressBar.setValue(int(float(dados[3])))
+                
+            self.command_l.setText(f"Último: {res}")
+            
+        except (ValueError, IndexError) as e:
+            print(f"Erro ao processar resposta '{res}': {e}")
 
     def UiComponents(self):
         self.pb_serial = self.findChild(QPushButton, "pb_serial")
