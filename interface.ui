@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>dasdasdasda</string>
+     <string>00 00 00 00</string>
     </property>
    </widget>
    <widget class="QLabel" name="command_l">
@@ -109,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>180</y>
+      <y>30</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -125,7 +125,7 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>30</y>
+      <y>180</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -241,7 +241,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
