@@ -20,11 +20,11 @@ from exercises import (
 # Options: "rosca_biceps" | "flexao" | "agachamento" | "abdominal"
 #          | "salto" | "flexao_lateral_perna"
 # ---------------------------------------------------------------------------
-EXERCICIO_ATIVO   = "salto"
+EXERCICIO_ATIVO   = "rosca_biceps"
 META_REPETICOES   = 10
 MODEL_PATH        = "pose_landmarker.task"
 CAMERA_INDEX      = 0   # change to 1, 2... if using Iriun
-COUNTDOWN_SECONDS = 3
+COUNTDOWN_SECONDS = 5
 # ---------------------------------------------------------------------------
 # MediaPipe setup (new Tasks API)
 # ---------------------------------------------------------------------------
@@ -39,7 +39,7 @@ options         = vision.PoseLandmarkerOptions(
 )
 landmarker = vision.PoseLandmarker.create_from_options(options)
 
-def countdown(captura, landmarker, segundos=3):
+def countdown(captura, landmarker, segundos=COUNTDOWN_SECONDS):
     """
     Shows a live camera feed with a countdown overlay.
     The exercise counter won't start until this returns.

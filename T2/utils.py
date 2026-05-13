@@ -1,22 +1,30 @@
 import math
 
 
-def calcular_angulo(a, b, c):
+def calcular_angulo(p1, p2, p3):
     """
-    Calculates the angle at point B, formed by segments BA and BC.
-    a, b, c are (x, y) tuples.
-    Returns angle in degrees [0, 180].
+    Calcula o ângulo em graus no ponto p2 (vértice).
+    p1, p2, p3 são tuplas (x, y).
     """
-    angulo = math.degrees(
-        math.atan2(c[1] - b[1], c[0] - b[0]) -
-        math.atan2(a[1] - b[1], a[0] - b[0])
-    )
-    angulo = abs(angulo)
-
-    if angulo > 180:
-        angulo = 360 - angulo
-
-    return angulo
+    v1_x = p1[0] - p2[0]
+    v1_y = p1[1] - p2[1]
+    
+    v2_x = p3[0] - p2[0]
+    v2_y = p3[1] - p2[1]
+    
+    produto_escalar = v1_x * v2_x + v1_y * v2_y
+    
+    mag_v1 = math.sqrt(v1_x**2 + v1_y**2)
+    mag_v2 = math.sqrt(v2_x**2 + v2_y**2)
+    
+    cosseno_theta = produto_escalar / (mag_v1 * mag_v2)
+    cosseno_theta = max(-1.0, min(1.0, cosseno_theta))
+    
+    angulo_radianos = math.acos(cosseno_theta)
+    
+    angulo_graus = math.degrees(angulo_radianos)
+    
+    return angulo_graus
 
 
 def distancia_euclidiana(a, b):
